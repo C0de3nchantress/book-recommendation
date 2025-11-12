@@ -32,7 +32,7 @@ ratings = ratings[ratings["N"] > 4].copy()
 # selecting only a subset of users to lower calculation time
 
 np.random.seed(5)
-user_fraction = 0.2
+user_fraction = 1
 
 unique_users = ratings["user_id"].unique()
 sample_users = np.random.choice(unique_users, size=round(user_fraction * len(unique_users)), replace=False)
@@ -385,3 +385,8 @@ plt.tight_layout()
 
 plt.savefig("artifacts/popularity_vs_rating.png", dpi=300, bbox_inches="tight")
 print("Plot saved to artifacts/popularity_vs_rating.png")
+
+
+ratings[['user_id', 'book_id', 'rating']].to_parquet("artifacts/ratings_clean.parquet")
+books.to_parquet("artifacts/books_clean.parquet")
+print("Saved cleaned datasets for model training!")
