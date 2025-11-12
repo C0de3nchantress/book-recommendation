@@ -32,7 +32,7 @@ ratings = ratings[ratings["N"] > 4].copy()
 # selecting only a subset of users to lower calculation time
 
 np.random.seed(5)
-user_fraction = 1
+user_fraction = 0.1
 
 unique_users = ratings["user_id"].unique()
 sample_users = np.random.choice(unique_users, size=round(user_fraction * len(unique_users)), replace=False)

@@ -18,7 +18,7 @@ def precision_recall_ndcg(model, train_df, test_df, num_users, num_items, Ks=[10
     train_user_items = train_df.groupby('u')['i'].apply(set).to_dict()
     test_user_items = test_df.groupby('u')['i'].apply(set).to_dict()
     all_users = np.array(list(train_user_items.keys()))
-    if len(all_users) > sample_users:
+    if sample_users is not None and len(all_users) > sample_users:
         users = np.random.choice(all_users, sample_users, replace=False)
     else:
         users = all_users

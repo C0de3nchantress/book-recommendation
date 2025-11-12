@@ -2,7 +2,9 @@ import torch
 import pandas as pd
 from src.data.lightgcn_data import train_test_split_leave_one_out
 from src.train_lightgcn import train_lightgcn
-
+import numpy as np
+import matplotlib.pyplot as plt
+from src.eval import precision_recall_ndcg
 
 # Load cleaned ratings
 ratings = pd.read_parquet("artifacts/ratings_clean.parquet")
@@ -77,16 +79,10 @@ def show_recommendations(recommended_items, books, output_path="artifacts/recomm
 show_recommendations(recommended_items, books)
 
 # --- FINAL EVALUATION & ARTIFACTS ---
-import pandas as pd
-import numpy as np
-import torch
-import matplotlib.pyplot as plt
-from src.eval import precision_recall_ndcg  # adjust to your import style if needed
 
-# use the saved metrics list that you already populated in training
-# assume metrics list: metrics = [(epoch, prec, rec, ndcg), ...]
-df_metrics = pd.DataFrame(metrics, columns=["epoch","precision","recall","ndcg"])
-df_metrics.to_csv("artifacts/training_metrics.csv", index=False)
+# use the saved metrics CSV that `train_lightgcn` wrote to disk
+# it already contains the columns: epoch, precision, recall, ndcg
+df_metrics = pd.read_csv("artifacts/training_metrics.csv")
 
 # Plot (if not already plotted)
 plt.figure(figsize=(8,5))
@@ -128,16 +124,7 @@ print("Saved final evaluation to artifacts/final_eval.csv")
 print(df_final.to_string(index=False))
 
 # --- FINAL EVALUATION & ARTIFACTS ---
-import pandas as pd
-import numpy as np
-import torch
-import matplotlib.pyplot as plt
-from src.eval import precision_recall_ndcg  # adjust to your import style if needed
-
-# use the saved metrics list that you already populated in training
-# assume metrics list: metrics = [(epoch, prec, rec, ndcg), ...]
-df_metrics = pd.DataFrame(metrics, columns=["epoch","precision","recall","ndcg"])
-df_metrics.to_csv("artifacts/training_metrics.csv", index=False)
+  
 
 # Plot (if not already plotted)
 plt.figure(figsize=(8,5))
